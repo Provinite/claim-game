@@ -8,6 +8,6 @@ if (!dbUrl) {
 
 export const queryBuilder = knex({
   client: "pg",
-  connection: { connectionString: dbUrl, ssl: true },
+  connection: { connectionString: dbUrl, ssl: { rejectUnauthorized: false } },
   searchPath: ["public"],
 });
