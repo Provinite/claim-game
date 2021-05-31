@@ -1,1 +1,1 @@
-start: npm start-prod
+start: yarn start-prod
