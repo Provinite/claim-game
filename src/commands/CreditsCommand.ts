@@ -10,6 +10,10 @@ export function processCreditsCommand(msg: Message) {
           name: "Development",
           value: "Prov https://www.github.com/provinite/claim-game",
         },
+        {
+          name: "Commissioner",
+          value: "CloverCoin https://www.patreon.com/CloverCoin",
+        },
       ])
   );
 }
