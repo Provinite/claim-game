@@ -23,6 +23,18 @@ export const processHelpCommand = async (msg: Message) => {
         inline: true,
       },
       {
+        name: "bug",
+        value:
+          "Use the `bug` command (in channel or DM) to get info on how to submit a bug report.",
+        inline: true,
+      },
+      {
+        name: "credits",
+        value:
+          "Use the `credits` command (in channel or DM) to get info on the creators of this bot.",
+        inline: true,
+      },
+      {
         name: "\u200B",
         value: "\u200B",
       },

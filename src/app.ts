@@ -1,5 +1,6 @@
 import { Client, Message } from "discord.js";
 import { processClaimCommand } from "./commands/ClaimCommand";
+import { processCreditsCommand } from "./commands/CreditsCommand";
 import { processPotentialFulfillmentCommand } from "./commands/FulfillmentCommand";
 import { processHelpCommand } from "./commands/HelpCommand";
 import { processInitCommand } from "./commands/InitCommand";
@@ -29,6 +30,7 @@ const main = async () => {
     myclaims: processMyClaimsCommand,
     settings: processSettingsCommand,
     help: processHelpCommand,
+    credits: processCreditsCommand,
   };
 
   client.on("message", async (msg) => {
