@@ -51,6 +51,11 @@ const main = async () => {
       }
       msgContent = msgContent.trim();
       let firstWord = msgContent.split(/\b/)[0];
+      if (firstWord) {
+        firstWord = firstWord.toLowerCase();
+      } else {
+        return;
+      }
       if (firstWord.length > 100) {
         return;
       }
