@@ -42,10 +42,14 @@ const main = async () => {
     if (!commandPattern) {
       return;
     }
-    if (commandPattern.test(msg.content)) {
-      const msgContent = msg.content
-        .substr(msg.content.indexOf(">") + 1)
-        .trim();
+    const hasCommand = commandPattern.test(msg.content);
+    if (hasCommand || msg.channel.type === "dm") {
+      let msgContent = msg.content;
+
+      if (hasCommand) {
+        msgContent = msgContent.substr(msg.content.indexOf(">") + 1);
+      }
+      msgContent = msgContent.trim();
       let firstWord = msgContent.split(/\b/)[0];
       if (firstWord.length > 100) {
         return;
