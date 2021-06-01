@@ -42,7 +42,7 @@ const main = async () => {
       const msgContent = msg.content
         .substr(msg.content.indexOf(">") + 1)
         .trim();
-      let firstWord = msgContent.split(/\s+/)[0];
+      let firstWord = msgContent.split(/\b/)[0];
       if (firstWord.length > 100) {
         return;
       }
