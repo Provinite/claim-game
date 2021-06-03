@@ -34,6 +34,9 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
       - run:
+        command: Build
+        command: yarn build
+      - run:
           name: Run tests
           command: yarn test
 
