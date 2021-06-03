@@ -21,7 +21,6 @@ export const processPotentialFulfillmentCommand = async (msg: Message) => {
     if (!claims.length) {
       return;
     } else {
-      console.log(benefactorMember);
       await claimService.fulfillClaim(claims[0], msg);
       const message = await msg.reply(
         `Nice, looks like you've fulfilled your claim for <@${benefactorMember.user}>. If i've got that wrong, react to this message with an ❌ within 2 minutes.`
