@@ -1,10 +1,6 @@
 import { Message } from "discord.js";
 import { createClaimEmbed } from "../claim/Claim";
-import {
-  createClaim,
-  getLatestClaim,
-  getOutstandingClaims,
-} from "../claim/ClaimService";
+import { claimService } from "../claim/ClaimService";
 
 export const processClaimCommand = async (msg: Message) => {
   if (msg.channel.type !== "text") {
@@ -14,7 +10,9 @@ export const processClaimCommand = async (msg: Message) => {
     return;
   }
   // fetch outstanding unfulfilled claims this user owes
-  const outstandingClaims = await getOutstandingClaims(msg.author.id);
+  const outstandingClaims = await claimService.getOutstandingClaims(
+    msg.author.id
+  );
 
   if (outstandingClaims.length > 0) {
     const [claim] = outstandingClaims;
@@ -27,7 +25,9 @@ export const processClaimCommand = async (msg: Message) => {
       }),
     });
   } else {
-    const lastClaim = await getLatestClaim({ guildId: msg.guild.id });
+    const lastClaim = await claimService.getLatestClaim({
+      guildId: msg.guild.id,
+    });
     if (lastClaim && lastClaim.claimantId === msg.author.id) {
       return msg.reply({
         content:
@@ -38,7 +38,7 @@ export const processClaimCommand = async (msg: Message) => {
         }),
       });
     }
-    const finalClaim = await createClaim({
+    const finalClaim = await claimService.createClaim({
       claimantId: msg.author.id,
       fulfilled: lastClaim ? false : true,
       benefactorId: lastClaim?.claimantId || null,
