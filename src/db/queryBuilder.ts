@@ -8,3 +8,8 @@ export const queryBuilder = <T = any, R = unknown>() => {
   }
   return connection;
 };
+
+export function resetConnection() {
+  connection?.destroy();
+  connection = knex(knexConfig);
+}

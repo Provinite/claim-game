@@ -1,12 +1,8 @@
-import { queryBuilder } from "../db/queryBuilder";
+import { queryBuilder, resetConnection } from "../db/queryBuilder";
 import { resetDb } from "./dbUtils";
 
-beforeAll(async () => {
-  try {
-    await resetDb();
-  } catch (e) {
-    console.error(e);
-  }
+beforeEach(async () => {
+  await resetDb();
 });
 
 afterAll(async () => {

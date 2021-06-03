@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`command:BugCommand replies with a link to github issues 1`] = `
+Object {
+  "author": Object {
+    "icon_url": "https://avatars.githubusercontent.com/u/13734094?s=400&u=09327218ed4a22862c6d1ce9e68116f7a26d5ada&v=4",
+    "name": "Prov",
+    "url": "https://github.com/provinite/claim-game",
+  },
+  "color": 6185895,
+  "description": "Please report all issues on the github issues page at https://www.github.com/provinite/claim-game/issues",
+  "fields": Array [],
+  "footer": Object {
+    "icon_url": undefined,
+    "text": "We appreciate all reports and suggestions!",
+  },
+  "image": null,
+  "thumbnail": null,
+  "timestamp": null,
+  "title": "Bug Reports",
+  "type": "rich",
+  "url": null,
+}
+`;

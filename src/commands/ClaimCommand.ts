@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { createClaimEmbed } from "../claim/Claim";
+import { claimHelpers } from "../claim/Claim";
 import { claimService } from "../claim/ClaimService";
 
 export const processClaimCommand = async (msg: Message) => {
@@ -17,9 +17,9 @@ export const processClaimCommand = async (msg: Message) => {
   if (outstandingClaims.length > 0) {
     const [claim] = outstandingClaims;
 
-    msg.reply({
+    await msg.reply({
       content: "You already have an outstanding claim.",
-      embed: await createClaimEmbed(claim, {
+      embed: await claimHelpers.createClaimEmbed(claim, {
         client: msg.client,
         guild: msg.guild,
       }),
@@ -32,7 +32,7 @@ export const processClaimCommand = async (msg: Message) => {
       return msg.reply({
         content:
           "Whoops, you created the last claim. Someone else needs to claim your reference first.",
-        embed: await createClaimEmbed(lastClaim, {
+        embed: await claimHelpers.createClaimEmbed(lastClaim, {
           client: msg.client,
           guild: msg.guild,
         }),
@@ -49,7 +49,7 @@ export const processClaimCommand = async (msg: Message) => {
     });
 
     await msg.reply(
-      await createClaimEmbed(finalClaim, {
+      await claimHelpers.createClaimEmbed(finalClaim, {
         client: msg.client,
         guild: msg.guild,
       })

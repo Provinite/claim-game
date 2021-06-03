@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { Claim, createClaimEmbed } from "../claim/Claim";
+import { Claim, claimHelpers } from "../claim/Claim";
 import { claimService } from "../claim/ClaimService";
 
 export const processMyClaimsCommand = async (msg: Message) => {
@@ -9,7 +9,9 @@ export const processMyClaimsCommand = async (msg: Message) => {
   }
   const claims = await claimService.getOutstandingClaims(msg.author.id);
   for (const claim of claims) {
-    await msg.reply(await createClaimEmbed(claim, { client: msg.client }));
+    await msg.reply(
+      await claimHelpers.createClaimEmbed(claim, { client: msg.client })
+    );
   }
   if (!claims.length) {
     return msg.reply("You have no outstanding claims");

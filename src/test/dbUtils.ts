@@ -1,4 +1,4 @@
-import { queryBuilder } from "../db/queryBuilder";
+import { queryBuilder, resetConnection } from "../db/queryBuilder";
 
 export async function resetDb() {
   await queryBuilder().schema.dropTableIfExists("guildSettings");

@@ -7,7 +7,7 @@
     "start": "nodemon -e ts --watch \"src/**\" --exec \"ts-node ./src/app.ts\"",
     "build": "tsc --project tsconfig-build.json",
     "start-prod": "node ./dist/src/app.js",
-    "test": "jest"
+    "test": "jest --runInBand"
   },
   "engines": {
     "node": "16.1.x",
