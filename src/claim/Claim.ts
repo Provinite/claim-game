@@ -34,10 +34,11 @@ export interface ClaimEmbedOptions {
   claimant?: User;
 }
 
-export async function createClaimEmbed(
-  claim: Claim,
-  options: ClaimEmbedOptions
-) {
+export const claimHelpers = {
+  createClaimEmbed,
+};
+
+async function createClaimEmbed(claim: Claim, options: ClaimEmbedOptions) {
   let { client, guild, benefactor, parentMessage, claimMessage, claimant } =
     options;
   if (isNonRootClaim(claim)) {

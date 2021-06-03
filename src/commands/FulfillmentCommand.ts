@@ -8,16 +8,12 @@ import {
   User,
 } from "discord.js";
 import getUrls from "get-urls";
-import {
-  fulfillClaim,
-  getClaims,
-  revertClaimFulfillment,
-} from "../claim/ClaimService";
+import { claimService } from "../claim/ClaimService";
 
 export const processPotentialFulfillmentCommand = async (msg: Message) => {
   if (isFulfillmentLike(msg)) {
     const benefactorMember = msg.mentions.members.first()!;
-    const claims = await getClaims({
+    const claims = await claimService.getClaims({
       claimantId: msg.author.id,
       benefactorId: benefactorMember.id,
       fulfilled: false,
@@ -25,7 +21,7 @@ export const processPotentialFulfillmentCommand = async (msg: Message) => {
     if (!claims.length) {
       return;
     } else {
-      await fulfillClaim(claims[0]);
+      await claimService.fulfillClaim(claims[0]);
       const message = await msg.reply(
         `Nice, looks like you've fulfilled your claim for ${benefactorMember}. If i've got that wrong, react to this message with an ❌ within 2 minutes.`
       );
@@ -41,7 +37,7 @@ export const processPotentialFulfillmentCommand = async (msg: Message) => {
         )
         .then(async (reactionSet) => {
           if (reactionSet.size) {
-            await revertClaimFulfillment(claims[0]);
+            await claimService.revertClaimFulfillment(claims[0]);
           }
         });
     }

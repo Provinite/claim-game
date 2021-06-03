@@ -7,7 +7,7 @@ import {
   User,
 } from "discord.js";
 import { Claim, NonRootClaim } from "./Claim";
-import { getClaims } from "./ClaimService";
+import { claimService } from "./ClaimService";
 
 export async function getBenefactor(client: Client, claim: NonRootClaim) {
   return (
@@ -55,7 +55,7 @@ export async function getClaimMessageChannel(
 }
 
 export async function getParentClaim(claim: NonRootClaim): Promise<Claim> {
-  return getClaims({ id: claim.parentClaimId }).then(([c]) => c);
+  return claimService.getClaims({ id: claim.parentClaimId }).then(([c]) => c);
 }
 
 export async function getClaimant(claim: Claim, client: Client): Promise<User> {

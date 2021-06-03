@@ -3,20 +3,30 @@ import { queryBuilder } from "../db/queryBuilder";
 import { v4 } from "uuid";
 import { Claim } from "./Claim";
 
-export function getOutstandingClaims(userId: string) {
+export const claimService = {
+  getOutstandingClaims,
+  getClaims,
+  createClaim,
+  deleteClaims,
+  getLatestClaim,
+  fulfillClaim,
+  revertClaimFulfillment,
+};
+
+function getOutstandingClaims(userId: string) {
   return claims().select<Claim[]>("*").where({
     claimantId: userId,
     fulfilled: false,
   });
 }
 
-export function getClaims(data: Partial<Claim>): Promise<Claim[]> {
+function getClaims(data: Partial<Claim>): Promise<Claim[]> {
   return claims()
     .select<Claim[]>("*")
     .where({ ...data });
 }
 
-export function createClaim(data: Partial<Claim>): Promise<Claim> {
+function createClaim(data: Partial<Claim>): Promise<Claim> {
   return claims()
     .insert({
       id: v4(),
@@ -33,25 +43,23 @@ export function createClaim(data: Partial<Claim>): Promise<Claim> {
     });
 }
 
-export function deleteClaims(deleteWhere: Partial<Claim>) {
+function deleteClaims(deleteWhere: Partial<Claim>) {
   return claims()
     .delete()
     .where({ ...deleteWhere });
 }
 
-export function getLatestClaim(data: Pick<Claim, "guildId">) {
+function getLatestClaim(data: Pick<Claim, "guildId">) {
   return claims().select("*").where(data).orderBy("createDate", "desc").first();
 }
 
-export function fulfillClaim(
-  claimOrClaimId: Claim | Claim["id"]
-): Promise<Claim> {
+function fulfillClaim(claimOrClaimId: Claim | Claim["id"]): Promise<Claim> {
   const claimId =
     typeof claimOrClaimId === "object" ? claimOrClaimId.id : claimOrClaimId;
   return claims().where({ id: claimId }).update({ fulfilled: true });
 }
 
-export function revertClaimFulfillment(
+function revertClaimFulfillment(
   claimOrClaimId: Claim | Claim["id"]
 ): Promise<Claim> {
   const claimId =
@@ -60,5 +68,5 @@ export function revertClaimFulfillment(
 }
 
 function claims(): Knex.QueryBuilder<Claim> {
-  return queryBuilder("claims");
+  return queryBuilder()("claims");
 }

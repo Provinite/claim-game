@@ -1,6 +1,6 @@
 import { GuildSettings } from "./GuildSettings";
 
-const cache: Record<string, GuildSettings> = {};
+let cache: Record<string, GuildSettings> = {};
 
 export function getGuildSettings(): GuildSettings[];
 export function getGuildSettings(guildId: string): GuildSettings | undefined;
@@ -12,6 +12,10 @@ export function getGuildSettings(
   } else {
     return cache[guildId];
   }
+}
+
+export function resetCache(newCache: Record<string, GuildSettings>) {
+  cache = newCache;
 }
 
 export function add(settings: GuildSettings) {

@@ -7,7 +7,7 @@ function guildSettings<
   T = GuildSettings,
   U = GuildSettings
 >(): Knex.QueryBuilder<T, U> {
-  return queryBuilder("guildSettings");
+  return queryBuilder()("guildSettings");
 }
 
 export function getGuildSettings(data: { guildId: string }) {
