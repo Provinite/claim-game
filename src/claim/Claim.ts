@@ -67,7 +67,7 @@ async function createClaimEmbed(claim: Claim, options: ClaimEmbedOptions) {
     (await guild?.members.fetch(claimant.id));
 
   const embed = createEmbed()
-    .setTitle(`Claim in ${guild}`)
+    .setTitle(`Claim in ${guild!.name}`)
     .setFooter(`${claim.id} Claimed`)
     .setTimestamp(claim.createDate);
 
