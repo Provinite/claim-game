@@ -18,6 +18,7 @@ jobs:
       - image: cimg/node:16.1.0
         environment:
           DATABASE_URL: postgresql://postgres_TEST:test@localhost/circle_test
+          cc_claim_game_db_use_ssl: "false"
       - image: circleci/postgres:13.2-ram
         environment:
           POSTGRES_USER: postgres_TEST
