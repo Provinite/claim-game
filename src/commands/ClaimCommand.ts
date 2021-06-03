@@ -29,7 +29,7 @@ export const processClaimCommand = async (msg: Message) => {
       guildId: msg.guild.id,
     });
     if (lastClaim && lastClaim.claimantId === msg.author.id) {
-      msg.reply({
+      return msg.reply({
         content:
           "Whoops, you created the last claim. Someone else needs to claim your reference first.",
         embed: await claimHelpers.createClaimEmbed(lastClaim, {
