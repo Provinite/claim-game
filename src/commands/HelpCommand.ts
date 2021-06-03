@@ -72,7 +72,7 @@ export const processHelpCommand = async (msg: Message) => {
       {
         name: "Fulfilling a claim",
         value:
-          "To fullfil an outstanding claim, go to the fulfillment channel and send a message containing a link or uploaded image, and mention the user that the claim is owed to.",
+          "To fulfil an outstanding claim, go to the fulfillment channel and send a message containing a link or uploaded image, and mention the user that the claim is owed to.",
       },
     ])
     .setFooter("If anything goes wrong, reach out to AJ or Prov please. Thx");

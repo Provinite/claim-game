@@ -11,6 +11,8 @@ function getDefaultClaim() {
     guildId: v4(),
     id: v4(),
     parentClaimId: v4(),
+    fulfillmentMessageChannelId: null,
+    fulfillmentMessageId: null,
   };
   return result;
 }

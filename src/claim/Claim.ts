@@ -18,6 +18,8 @@ export interface Claim {
   createDate: Date;
   claimMessageId: string;
   claimMessageChannelId: string;
+  fulfillmentMessageId: string | null;
+  fulfillmentMessageChannelId: string | null;
 }
 
 export type NonRootClaim = Claim & {
