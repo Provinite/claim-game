@@ -12,7 +12,7 @@ export const createGuildSettingsEmbed = (
   settings: GuildSettings
 ) => {
   return createEmbed()
-    .setTitle(`Claim Game Settings for ${guild.name}`)
+    .setTitle(`Claim Game Settings for ${guild.toString()}`)
     .addFields([
       {
         name: `Claim Channel`,

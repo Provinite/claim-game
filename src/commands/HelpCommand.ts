@@ -8,7 +8,7 @@ export const processHelpCommand = async (msg: Message) => {
     .addFields([
       {
         name: "Commands",
-        value: `To use a command, mention this bot at the beginning of your message and follow it immediately with one of the following commands.\n\nFor example "${msg.client.user} help" to see this message`,
+        value: `To use a command, mention this bot at the beginning of your message and follow it immediately with one of the following commands.\n\nFor example "${msg.client.user?.toString()} help" to see this message`,
       },
       {
         name: "claim",
