@@ -2,4 +2,4 @@
 
 ## Bugs
 
-- Fixed open claims in other guilds preventing users from creating new claims
+- Fixed open claims in other guilds preventing users from creating new claims (#15)
