@@ -10,9 +10,10 @@ export const processClaimCommand = async (msg: Message) => {
     return;
   }
   // fetch outstanding unfulfilled claims this user owes
-  const outstandingClaims = await claimService.getOutstandingClaims(
-    msg.author.id
-  );
+  const outstandingClaims = await claimService.getOutstandingClaims({
+    claimantId: msg.author.id,
+    guildId: msg.guild.id,
+  });
 
   if (outstandingClaims.length > 0) {
     const [claim] = outstandingClaims;

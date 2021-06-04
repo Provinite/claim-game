@@ -190,4 +190,56 @@ describe("command:Claim", () => {
     );
     expect(claimHelpers.createClaimEmbed).toHaveBeenCalledTimes(1);
   });
+  it("does allow you to claim if you have an open claim in another guild", async () => {
+    const mockGuild2 = createMockGuild(mockClient);
+    const mockClaimChannel2 = createMockTextChannel(mockGuild2);
+
+    const mockUser = createMockUser(mockClient);
+    const mockUser2 = createMockUser(mockClient);
+    const mockUser3 = createMockUser(mockClient);
+
+    const claimMessage = await createMockCommandMessage(
+      "claim 1",
+      mockClient,
+      mockClaimChannel
+    );
+    claimMessage.author = mockUser as any;
+
+    const claimMessage2 = await createMockCommandMessage(
+      "claim 2",
+      mockClient,
+      mockClaimChannel
+    );
+    claimMessage2.author = mockUser2 as any;
+
+    const claimMessage3 = await createMockCommandMessage(
+      "claim 3",
+      mockClient,
+      mockClaimChannel
+    );
+    claimMessage3.author = mockUser3 as any;
+
+    // claim in a new guild
+    const claimMessage4 = await createMockCommandMessage(
+      "claim 1 on server 2",
+      mockClient,
+      mockClaimChannel2
+    );
+    claimMessage4.author = mockUser2 as any;
+
+    await bot.handleMessage(claimMessage);
+    await bot.handleMessage(claimMessage2);
+    await bot.handleMessage(claimMessage3);
+    await bot.handleMessage(claimMessage4);
+
+    jest
+      .spyOn(claimHelpers, "createClaimEmbed")
+      .mockResolvedValue({} as any)
+      .mockClear();
+    await bot.handleMessage(claimMessage4);
+    expect(queryBuilder()("claims").count("id")).resolves.toEqual([
+      { count: "4" },
+    ]);
+    expect(claimHelpers.createClaimEmbed).toHaveBeenCalledTimes(1);
+  });
 });
