@@ -14,11 +14,10 @@ export const claimService = {
   revertClaimFulfillment,
 };
 
-function getOutstandingClaims(userId: string) {
-  return claims().select<Claim[]>("*").where({
-    claimantId: userId,
-    fulfilled: false,
-  });
+function getOutstandingClaims(data: Partial<Claim>) {
+  return claims()
+    .select<Claim[]>("*")
+    .where({ ...data, fulfilled: false });
 }
 
 function getClaims(data: Partial<Claim>): Promise<Claim[]> {
@@ -72,13 +71,11 @@ function revertClaimFulfillment(
 ): Promise<Claim> {
   const claimId =
     typeof claimOrClaimId === "object" ? claimOrClaimId.id : claimOrClaimId;
-  return claims()
-    .where({ id: claimId })
-    .update({
-      fulfilled: false,
-      fulfillmentMessageId: null,
-      fulfillmentMessageChannelId: null,
-    });
+  return claims().where({ id: claimId }).update({
+    fulfilled: false,
+    fulfillmentMessageId: null,
+    fulfillmentMessageChannelId: null,
+  });
 }
 
 function claims(): Knex.QueryBuilder<Claim> {

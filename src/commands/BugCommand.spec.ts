@@ -1,10 +1,9 @@
-import { Client, MessageOptions, SnowflakeUtil, User } from "discord.js";
+import { Client, SnowflakeUtil } from "discord.js";
 import { MockedObjectDeep } from "ts-jest/dist/utils/testing";
 import { ClaimGameBot } from "../ClaimGameBot";
 import { createMockTextChannel } from "../test/discord-mocks/Channel.mock";
 import { createMockClient } from "../test/discord-mocks/Client.mock";
 import { createMockGuild } from "../test/discord-mocks/Guild.mock";
-import { createMockMessage } from "../test/discord-mocks/Message.mock";
 import { createMockCommandMessage } from "../test/discordHelpers";
 
 describe("command:BugCommand", () => {
