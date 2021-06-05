@@ -1,3 +1,9 @@
+# 1.1.1 - 06/04/2021
+
+## New Features
+
+- Add CI badges to README
+
 # 1.1.0 - 06/04/2021
 
 ## New Features
