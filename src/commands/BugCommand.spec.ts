@@ -11,7 +11,6 @@ describe("command:BugCommand", () => {
   let mockClient: MockedObjectDeep<Client>;
   beforeEach(async () => {
     mockClient = createMockClient();
-    mockClient.user = { id: SnowflakeUtil.generate() } as any;
 
     bot = new ClaimGameBot(mockClient);
     await bot.start();
