@@ -1,5 +1,7 @@
 # Claim Game Discord Bot
 
+[![CircleCI](https://circleci.com/gh/Provinite/claim-game/tree/main.svg?style=svg)](https://circleci.com/gh/Provinite/claim-game)
+
 This repository is for the Claim Game discord bot. Report any bugs over on the issues tab. If you're interested in adding this bot to your server, reach out to prov or AJ (CloverCoin). This is still a beta.
 
 # Migrating
