@@ -10,6 +10,7 @@ import { processSettingsCommand } from "./commands/SettingsCommand";
 import { isGuildChatMessage } from "./discord/isGuildChatMessage";
 import { getGuildSettings } from "./guildSettings/GuildSettingsCache";
 import { getAllGuildSettings } from "./guildSettings/GuildSettingsService";
+import { version } from "../package.json";
 
 const commands: Record<string, (msg: Message) => void> = {
   init: processInitCommand,
@@ -83,5 +84,9 @@ export class ClaimGameBot {
 
   async handleClientReady() {
     this.commandPattern = new RegExp(`^<@!?${this.client.user!.id}>`);
+    await this.client.user?.setPresence({
+      status: "online",
+      activity: { name: `Claim Game v${version}`, type: "PLAYING" },
+    });
   }
 }
