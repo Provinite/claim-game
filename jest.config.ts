@@ -10,6 +10,7 @@ const config: InitialOptionsTsJest = {
   ],
   coverageDirectory: "./coverage",
   collectCoverage: true,
+  coverageProvider: "v8",
 };
 
 export default config;
