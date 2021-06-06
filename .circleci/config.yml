@@ -40,7 +40,7 @@ jobs:
           name: Run tests
           command: yarn test --ci
       - store_test_results:
-          path: ./reports/junit/
+          path: ./reports/junit
       - store_artifacts:
           path: ./reports/junit
 
