@@ -1,4 +1,4 @@
-import { Client, Guild, SnowflakeUtil, TextChannel } from "discord.js";
+import { Client, Guild, SnowflakeUtil, TextChannel, User } from "discord.js";
 import { MockedObjectDeep } from "ts-jest/dist/utils/testing";
 import { claimHelpers } from "../claim/Claim";
 import { ClaimGameBot } from "../ClaimGameBot";
@@ -136,7 +136,7 @@ describe("command:Claim", () => {
     expect(msg.reply.mock.calls[0][0].content).toMatchInlineSnapshot(
       `"Whoops, you created the last claim. Someone else needs to claim your reference first."`
     );
-    expect(queryBuilder()("claims").count("id")).resolves.toEqual([
+    await expect(queryBuilder()("claims").count("id")).resolves.toEqual([
       { count: "1" },
     ]);
   });
@@ -182,7 +182,7 @@ describe("command:Claim", () => {
       .mockResolvedValue({} as any)
       .mockClear();
     await bot.handleMessage(claimMessage4);
-    expect(queryBuilder()("claims").count("id")).resolves.toEqual([
+    await expect(queryBuilder()("claims").count("id")).resolves.toEqual([
       { count: "3" },
     ]);
     expect(claimMessage4.reply.mock.calls[0][0].content).toMatchInlineSnapshot(
@@ -193,6 +193,12 @@ describe("command:Claim", () => {
   it("does allow you to claim if you have an open claim in another guild", async () => {
     const mockGuild2 = createMockGuild(mockClient);
     const mockClaimChannel2 = createMockTextChannel(mockGuild2);
+
+    add({
+      guildId: mockGuild2.id,
+      claimChannelId: mockClaimChannel2.id,
+      fulfillmentChannelId: SnowflakeUtil.generate(),
+    });
 
     const mockUser = createMockUser(mockClient);
     const mockUser2 = createMockUser(mockClient);
@@ -237,9 +243,26 @@ describe("command:Claim", () => {
       .mockResolvedValue({} as any)
       .mockClear();
     await bot.handleMessage(claimMessage4);
-    expect(queryBuilder()("claims").count("id")).resolves.toEqual([
+    await expect(queryBuilder()("claims").count("id")).resolves.toEqual([
       { count: "4" },
     ]);
     expect(claimHelpers.createClaimEmbed).toHaveBeenCalledTimes(1);
+  });
+  it("ignores claims outside the claim channel", async () => {
+    const mockUser = createMockUser(mockClient);
+    const mockNonClaimChannel = await createMockTextChannel(mockGuild);
+    const claimMessage = await createMockCommandMessage(
+      "claim 1",
+      mockClient,
+      mockNonClaimChannel
+    );
+    claimMessage.author = mockUser as any;
+
+    await bot.handleMessage(claimMessage);
+
+    expect(claimMessage.reply).not.toHaveBeenCalled();
+    await expect(queryBuilder()("claims").count("id")).resolves.toEqual([
+      { count: "0" },
+    ]);
   });
 });
