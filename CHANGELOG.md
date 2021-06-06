@@ -1,29 +1,28 @@
-# 1.1.3 - 06/06/2021
-
-## New Features
+## 1.1.3 - 06/06/2021
+### New Features
 
 - Added junit & jest coverage reports to CI
 
-# 1.1.2 - 06/05/2021
+## 1.1.2 - 06/05/2021
 
-## Bugs
+### Bugs
 
 - Fixed the "claim" command not being restricted to the configured chaim channel (#13)
 
-# 1.1.1 - 06/04/2021
+## 1.1.1 - 06/04/2021
 
-## New Features
+### New Features
 
 - Add CI badges to README
 
-# 1.1.0 - 06/04/2021
+## 1.1.0 - 06/04/2021
 
-## New Features
+### New Features
 
 - Added a version indicator to the bot's presence info (#14)
 
-# 1.0.1 - 06/04/2021
+## 1.0.1 - 06/04/2021
 
-## Bugs
+### Bugs
 
 - Fixed open claims in other guilds preventing users from creating new claims (#15)
