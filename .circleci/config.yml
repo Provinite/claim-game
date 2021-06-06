@@ -38,7 +38,13 @@ jobs:
           command: yarn build
       - run:
           name: Run tests
-          command: yarn test
+          command: yarn test --ci
+      - store_test_results:
+          path: ./reports/junit
+      - store_artifacts:
+          path: ./reports/junit
+      - store_artifacts:
+          path: ./coverage
 
 workflows:
   # Below is the definition of your workflow.
