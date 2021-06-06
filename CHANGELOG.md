@@ -1,3 +1,9 @@
+#1.1.2 - 06/05/2021
+
+## Bugs
+
+- Fixed the "claim" command not being restricted to the configured chaim channel (#13)
+
 # 1.1.1 - 06/04/2021
 
 ## New Features

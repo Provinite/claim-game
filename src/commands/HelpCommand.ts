@@ -13,7 +13,7 @@ export const processHelpCommand = async (msg: Message) => {
       {
         name: "claim",
         value:
-          "Use the `claim` command to continue the claim chain. Make sure to include a reference in your claim message.",
+          "Use the `claim` command to continue the claim chain. Make sure to include a reference in your claim message. This command can only be used in the claim channel.",
         inline: true,
       },
       {

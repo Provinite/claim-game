@@ -1,6 +1,7 @@
 import { Message } from "discord.js";
 import { claimHelpers } from "../claim/Claim";
 import { claimService } from "../claim/ClaimService";
+import { getGuildSettings } from "../guildSettings/GuildSettingsCache";
 
 export const processClaimCommand = async (msg: Message) => {
   if (msg.channel.type !== "text") {
@@ -9,6 +10,12 @@ export const processClaimCommand = async (msg: Message) => {
   if (msg.guild === null) {
     return;
   }
+
+  const guildSettings = getGuildSettings(msg.guild.id);
+  if (!guildSettings || msg.channel.id !== guildSettings.claimChannelId) {
+    return;
+  }
+
   // fetch outstanding unfulfilled claims this user owes
   const outstandingClaims = await claimService.getOutstandingClaims({
     claimantId: msg.author.id,
