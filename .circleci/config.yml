@@ -43,6 +43,8 @@ jobs:
           path: ./reports/junit
       - store_artifacts:
           path: ./reports/junit
+      - store_artifacts:
+          path: ./coverage
 
 workflows:
   # Below is the definition of your workflow.

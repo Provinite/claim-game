@@ -8,6 +8,8 @@ const config: InitialOptionsTsJest = {
     "default",
     ["jest-junit", { outputDirectory: "./reports/junit" }],
   ],
+  coverageDirectory: "./coverage",
+  collectCoverage: true,
 };
 
 export default config;
