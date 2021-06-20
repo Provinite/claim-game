@@ -12,12 +12,41 @@ export const claimService = {
   getLatestClaim,
   fulfillClaim,
   revertClaimFulfillment,
+  getClaimCountLeaderBoard,
 };
 
 function getOutstandingClaims(data: Partial<Claim>) {
   return claims()
     .select<Claim[]>("*")
     .where({ ...data, fulfilled: false });
+}
+
+function getClaimCountLeaderBoard(
+  data: Partial<Claim>,
+  options = { limit: 10 }
+): Promise<
+  { claimantId: string; guildId: string; count: string; firstClaimDate: Date }[]
+> {
+  const result = claims()
+    .count("* as count")
+    .min("createDate", { as: "firstClaimDate" })
+    .select<
+      {
+        claimantId: string;
+        guildId: string;
+        count: string;
+        firstClaimDate: Date;
+      }[]
+    >(["claimantId", "guildId"])
+    .groupBy("guildId")
+    .groupBy("claimantId")
+    .orderBy("count", "desc")
+    .where({ ...data });
+  if (options.limit) {
+    result.limit(options.limit);
+  }
+
+  return result;
 }
 
 function getClaims(data: Partial<Claim>): Promise<Claim[]> {
