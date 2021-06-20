@@ -23,6 +23,6 @@ export function createMockMessage(
     true
   );
   jest.spyOn(result, "reply").mockResolvedValue(null as any);
-
+  jest.spyOn(result, "react").mockResolvedValue(null as any);
   return result;
 }

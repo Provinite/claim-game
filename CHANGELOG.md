@@ -1,4 +1,11 @@
+# 1.2.0 - 06/20/2021
+
+## New Features
+
+- Added "stats" command for a server leaderboard
+
 ## 1.1.3 - 06/06/2021
+
 ### New Features
 
 - Added junit & jest coverage reports to CI

@@ -11,6 +11,7 @@ import { isGuildChatMessage } from "./discord/isGuildChatMessage";
 import { getGuildSettings } from "./guildSettings/GuildSettingsCache";
 import { getAllGuildSettings } from "./guildSettings/GuildSettingsService";
 import { version } from "../package.json";
+import { processStatsCommand } from "./commands/StatsCommand";
 
 const commands: Record<string, (msg: Message) => void> = {
   init: processInitCommand,
@@ -20,6 +21,7 @@ const commands: Record<string, (msg: Message) => void> = {
   help: processHelpCommand,
   credits: processCreditsCommand,
   bug: processBugCommand,
+  stats: processStatsCommand,
 };
 
 export class ClaimGameBot {
@@ -35,7 +37,6 @@ export class ClaimGameBot {
     this.client.on("message", (msg) => this.handleMessage(msg));
 
     await this.client.login(TOKEN);
-    console.log("Logged in!");
   }
   stop() {
     const iv = (this.client as any)._intervals as Set<NodeJS.Timeout>;
