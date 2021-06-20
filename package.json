@@ -1,6 +1,6 @@
 {
   "name": "@clovercoin/claim-game",
-  "version": "1.1.3",
+  "version": "1.2.0",
   "main": "src/app.ts",
   "license": "MIT",
   "scripts": {
