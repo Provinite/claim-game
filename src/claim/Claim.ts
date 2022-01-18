@@ -32,8 +32,8 @@ export interface ClaimEmbedOptions {
   guild?: Guild;
   benefactor?: GuildMember | User | null;
   parentMessage?: Message | null;
-  claimMessage?: Message;
-  claimant?: User;
+  claimMessage?: Message | null;
+  claimant?: User | null;
 }
 
 export const claimHelpers = {
@@ -41,57 +41,66 @@ export const claimHelpers = {
 };
 
 async function createClaimEmbed(claim: Claim, options: ClaimEmbedOptions) {
-  let { client, guild, benefactor, parentMessage, claimMessage, claimant } =
-    options;
-  if (isNonRootClaim(claim)) {
-    if (guild === undefined) {
-      guild = await getGuild(client, claim);
+  try {
+    let { client, guild, benefactor, parentMessage, claimMessage, claimant } =
+      options;
+    if (isNonRootClaim(claim)) {
+      if (guild === undefined) {
+        guild = await getGuild(client, claim);
+      }
+      if (benefactor === undefined) {
+        benefactor = await getBenefactor(client, claim);
+      }
+      if (parentMessage === undefined) {
+        const parentClaim = await getParentClaim(claim);
+        parentMessage = await getClaimMessage(client, parentClaim);
+      }
     }
-    if (benefactor === undefined) {
-      benefactor = await getBenefactor(client, claim);
+    if (claimant === undefined) {
+      claimant = await getClaimant(claim, client);
     }
-    if (parentMessage === undefined) {
-      const parentClaim = await getParentClaim(claim);
-      parentMessage = await getClaimMessage(client, parentClaim);
+    if (claimMessage === undefined) {
+      claimMessage = await getClaimMessage(client, claim);
     }
-  }
-  if (claimant === undefined) {
-    claimant = await getClaimant(claim, client);
-  }
-  if (claimMessage === undefined) {
-    claimMessage = await getClaimMessage(client, claim);
-  }
 
-  const claimantMember =
-    guild?.members.cache.get(claimant.id) ||
-    (await guild?.members.fetch(claimant.id));
+    let claimantMember: GuildMember | null = null;
+    try {
+      if (claimant) {
+        const fetchedMember =
+          guild?.members.cache.get(claimant.id) ||
+          (await guild?.members.fetch(claimant.id));
+        claimantMember = fetchedMember || null;
+      } else {
+        claimantMember = null;
+      }
+    } catch (err) {
+      claimantMember = null;
+    }
 
-  const embed = createEmbed()
-    .setTitle(`Claim in ${guild!.toString()}`)
-    .setFooter(`${claim.id} Claimed`)
-    .setTimestamp(claim.createDate);
+    const embed = createEmbed()
+      .setTitle(`Claim in ${guild!.toString()}`)
+      .setFooter(`${claim.id} Claimed`)
+      .setTimestamp(claim.createDate);
 
-  if (claimantMember) {
-    embed.setAuthor(claimantMember.displayName, claimant.displayAvatarURL());
-  }
-  if (benefactor) {
-    embed.addField("Owed to", benefactor.toString(), true);
-  }
-  if (claimant) {
-    embed.addField("Claimed by", claimant.toString(), true);
-  }
+    embed.setAuthor(
+      claimantMember?.displayName || "Unknown User",
+      claimant?.displayAvatarURL() || undefined
+    );
 
-  if (parentMessage) {
-    embed.addField("Reference Message", parentMessage.url);
-  }
-  if (claimMessage) {
-    embed.addField("Claim Message", claimMessage.url);
-  }
-  if (!isNonRootClaim(claim)) {
-    embed.setDescription("The first claim in the chain for this server");
-  }
+    embed.addField("Owed to", benefactor?.toString() || "Not Found");
+    embed.addField("Claimed by", claimant?.toString() || "Not Found", true);
 
-  return embed;
+    embed.addField("Reference Message", parentMessage?.url || "Not Found");
+    embed.addField("Claim Message", claimMessage?.url || "Not Found");
+    if (!isNonRootClaim(claim)) {
+      embed.setDescription("The first claim in the chain for this server");
+    }
+
+    return embed;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 }
 
 export function isNonRootClaim(claim: Claim): claim is NonRootClaim {
