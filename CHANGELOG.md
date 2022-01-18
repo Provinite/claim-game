@@ -1,3 +1,7 @@
+# 1.2.1 - 01/17/2022
+
+- Fixed various bot crashes on discord API errors such as deleted messages or users.
+
 # 1.2.0 - 06/20/2021
 
 ## New Features
