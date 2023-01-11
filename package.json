@@ -18,7 +18,7 @@
     "discord.js": "^12.5.3",
     "get-urls": "^10.0.0",
     "javascript-time-ago": "^2.3.7",
-    "knex": "^0.95.6",
+    "knex": "^2.4.0",
     "pg": "^8.6.0",
     "uuid": "^8.3.2"
   },
