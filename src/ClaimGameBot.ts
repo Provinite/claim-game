@@ -12,6 +12,7 @@ import { getGuildSettings } from "./guildSettings/GuildSettingsCache";
 import { getAllGuildSettings } from "./guildSettings/GuildSettingsService";
 import { version } from "../package.json";
 import { processStatsCommand } from "./commands/StatsCommand";
+import { processPersonalStatsCommand } from "./commands/PersonalStatsCommand";
 
 const commands: Record<string, (msg: Message) => void> = {
   init: processInitCommand,
@@ -22,6 +23,7 @@ const commands: Record<string, (msg: Message) => void> = {
   credits: processCreditsCommand,
   bug: processBugCommand,
   stats: processStatsCommand,
+  mystats: processPersonalStatsCommand,
 };
 
 export class ClaimGameBot {
