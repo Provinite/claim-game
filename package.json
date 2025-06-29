@@ -11,12 +11,11 @@
     "test": "jest --runInBand"
   },
   "engines": {
-    "node": "16.x.x",
     "yarn": "1.22.x"
   },
   "dependencies": {
     "discord.js": "^12.5.3",
-    "get-urls": "^10.0.0",
+    "get-urls": "^12.1.0",
     "javascript-time-ago": "^2.3.7",
     "knex": "^0.95.6",
     "pg": "^8.6.0",
@@ -34,5 +33,6 @@
     "ts-jest": "^27.0.2",
     "ts-node": "10.4.0",
     "typescript": "4.5.4"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
