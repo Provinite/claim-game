@@ -10,23 +10,24 @@ import { timeAgo } from "../util/timeAgo";
  * @returns void
  */
 export const processPersonalStatsCommand = async (msg: Message) => {
-  if (!isGuildChatMessage(msg)) {
-    return;
-  }
+  const isInGuild = isGuildChatMessage(msg);
+  
+  // Query parameters - if in guild, filter by guild; if in DM, get stats from all guilds
+  const queryParams = isInGuild 
+    ? { guildId: msg.guild.id, claimantId: msg.author.id }
+    : { claimantId: msg.author.id };
 
   const data = await claimService.getClaimCountLeaderBoard(
-    {
-      guildId: msg.guild.id,
-      claimantId: msg.author.id,
-    },
-    { limit: 1 }
+    queryParams,
+    { limit: isInGuild ? 1 : 50 } // Limit to more results for DM to show multiple guilds
   );
 
   const embed = createEmbed().setTitle("Your Stats").setTimestamp(new Date());
 
   if (data.length === 0) {
     embed.setDescription("You haven't made any claims yet!");
-  } else {
+  } else if (isInGuild) {
+    // Guild context - show stats for this server only
     const userStats = data[0];
     embed.setDescription(
       `You have made **${userStats.count}** claim${
@@ -35,6 +36,29 @@ export const processPersonalStatsCommand = async (msg: Message) => {
         userStats.firstClaimDate
       )}.`
     );
+  } else {
+    // DM context - show stats across all servers
+    const totalClaims = data.reduce((sum, stats) => sum + Number(stats.count), 0);
+    const earliestDate = data.reduce((earliest, stats) => 
+      stats.firstClaimDate < earliest ? stats.firstClaimDate : earliest, 
+      data[0].firstClaimDate
+    );
+
+    let description = `You have made **${totalClaims}** claim${
+      totalClaims > 1 ? "s" : ""
+    } across **${data.length}** server${data.length > 1 ? "s" : ""}.\n\n`;
+    
+    description += `You started playing ${timeAgo(earliestDate)}.\n\n`;
+    
+    description += "**Stats by server:**\n";
+    for (const stats of data) {
+      // Try to get guild name from client cache
+      const guild = msg.client.guilds.cache.get(stats.guildId);
+      const guildName = guild ? guild.name : `Server ${stats.guildId.slice(0, 8)}...`;
+      description += `• ${guildName}: **${stats.count}** claim${Number(stats.count) > 1 ? "s" : ""}\n`;
+    }
+
+    embed.setDescription(description);
   }
 
   await msg.reply(embed);

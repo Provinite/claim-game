@@ -1,3 +1,7 @@
+# 1.3.0 - 07/02/2025
+
+- Added mystats command
+
 # 1.2.1 - 01/17/2022
 
 - Fixed various bot crashes on discord API errors such as deleted messages or users.
